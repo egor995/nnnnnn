@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Beauty Space</title>
+  <style>
+    :root {
+      --primary-color: #2C3E50;
+      --accent-color: #A8763E; /* Бронзовый */
+      --bg-color: #f8f9fa; /* Светло-серый фон */
+      --text-color: #2c3e50;
+      --white: #ffffff;
+      --border-dark: #333;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      scroll-behavior: smooth;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-color);
+    }
+
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      z-index: 1000;
+    }
+
+    .logo {
+      font-weight: bold;
+      font-size: 1.2rem;
+      color: var(--primary-color);
+    }
+
+    nav a {
+      margin-left: 1.5rem;
+      text-decoration: none;
+      color: var(--primary-color);
+      font-weight: 500;
+    }
+
+    nav a:hover {
+      color: var(--accent-color);
+    }
+
+    section {
+      padding: 80px 2rem;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .hero {
+      background-image: url('https://i.pinimg.com/736x/56/25/4d/56254da8884fb208b7cb1be88a32b40c.jpg ');
+      background-position: center;
+      background-size: cover;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      text-align: center;
+      position: relative;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.4);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 800px;
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      opacity: 0.9;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 0.75rem 1.5rem;
+      background: var(--accent-color);
+      color: white;
+      text-decoration: none;
+      border-radius: 30px;
+      transition: background 0.3s ease;
+    }
+
+    .btn:hover {
+      background: #bfa064;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .card {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      transition: transform 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+    }
+
+    .card h3 {
+      margin-bottom: 1rem;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+    }
+
+    .gallery img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border: 3px solid var(--border-dark);
+      border-radius: 10px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .gallery img:hover {
+      transform: scale(1.1); /* Увеличение на 10% */
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3); /* Тень при наведении */
+    }
+
+    .testimonials {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+    }
+
+    .testimonial {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+
+    .write-review-btn {
+      display: block;
+      margin: 2rem auto 0 auto;
+      text-align: center;
+      padding: 0.6rem 1.2rem;
+      background: var(--accent-color);
+      color: white;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .write-review-btn:hover {
+      background: #bfa064;
+    }
+
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.6);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .modal-content {
+      background: white;
+      padding: 2rem;
+      border-radius: 10px;
+      max-width: 500px;
+      width: 90%;
+    }
+
+    .modal-content h3 {
+      margin-bottom: 1rem;
+    }
+
+    .modal-content label {
+      display: block;
+      margin-top: 1rem;
+      font-weight: bold;
+    }
+
+    .modal-content input,
+    .modal-content textarea {
+      width: 100%;
+      padding: 0.75rem;
+      margin-top: 0.5rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    .modal-content button {
+      margin-top: 1rem;
+      padding: 0.75rem 1.5rem;
+      background: var(--accent-color);
+      color: white;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+    }
+
+    .contacts {
+      background: white;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+
+    .social-icons img {
+      width: 30px;
+      margin-right: 1rem;
+      vertical-align: middle;
+    }
+
+    footer {
+      background: var(--primary-color);
+      color: white;
+      text-align: center;
+      padding: 2rem 1rem;
+      margin-top: 4rem;
+    }
+
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="logo">Beauty Space</div>
+    <nav>
+      <a href="#home">Главная</a>
+      <a href="#services">Услуги</a>
+      <a href="#gallery">Фото</a>
+      <a href="#testimonials">Отзывы</a>
+      <a href="#contact">Контакты</a>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <section id="home" class="hero">
+    <div class="hero-content">
+      <h1>Beauty Space</h1>
+      <p>Пространство для мастеров красоты, где рождается вдохновение и создаются тренды.</p>
+      <button onclick="alert('Запись на экскурсию')" class="btn">Записаться на экскурсию</button>
+    </div>
+  </section>
+
+  <!-- Services Section -->
+  <section id="services">
+    <h2 class="section-title">Наши услуги</h2>
+    <div class="cards">
+      <div class="card">
+        <h3>Часовая аренда</h3>
+        <p>Быстро, гибко, без лишних затрат. Идеально для спонтанных встреч и работы в движении.</p>
+      </div>
+      <div class="card">
+        <h3>Почасовой график</h3>
+        <p>Идеально для тех, кто работает по предварительной записи. Гибкий график доступа.</p>
+      </div>
+      <div class="card">
+        <h3>Долгосрочная аренда</h3>
+        <p>Закрепите своё личное пространство с возможностью персонализации. Доступ 24/7.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Gallery Section -->
+  <section id="gallery">
+    <h2 class="section-title">Фотогалерея</h2>
+    <div class="gallery">
+      <img src="https://idei.club/uploads/posts/2022-10/1666959554_7-idei-club-p-rabochee-mesto-manikyurshchitsi-na-kukhne-8.jpg " alt="Место мастера маникюра">
+      <img src="https://avatars.mds.yandex.net/get-altay/6249106/2a00000182af1759e91d986c8f9c74a2ce0d/orig " alt="Рабочее место визажиста">
+      <img src="https://bigfoto.name/uploads/posts/2022-12/1671005285_79-bigfoto-name-p-dizain-kosmeticheskogo-kabineta-80.jpg " alt="Место косметолога">
+      <img src="https://cs2.livemaster.ru/storage/7c/7b/f87633f1d2a79ba6500ac1505c6k--dlya-doma-i-interera-grimernyj-stol-90-160-80-sm.jpg " alt="Место парикмахера">
+    </div>
+  </section>
+
+  <!-- Testimonials Section -->
+  <section id="testimonials">
+    <h2 class="section-title">Отзывы</h2>
+    <div class="testimonials">
+      <div class="testimonial">
+        <p>“Beauty Space стал моим вторым домом. Удобное расположение, отличные условия и дружелюбная атмосфера.”</p>
+        <p><strong>Анастасия</strong>, Визажист</p>
+      </div>
+      <div class="testimonial">
+        <p>“Здесь всё продумано до мелочей — от освещения до кофе-брейка. Работать одно удовольствие!”</p>
+        <p><strong>Ирина</strong>, Мастер маникюра</p>
+      </div>
+      <div class="testimonial">
+        <p>“Отличное пространство для развития и общения с коллегами. Обязательно вернусь снова.”</p>
+        <p><strong>Ольга</strong>, Бровист</p>
+      </div>
+    </div>
+    <button class="write-review-btn" onclick="openModal()">Написать отзыв</button>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact">
+    <h2 class="section-title">Контакты</h2>
+    <div class="contacts">
+      <p>г. Новосибирск, ул. Ватутина 45/1</p>
+      <p>Телефон: <a href="tel:+79012082152">8 901 208-21-52</a></p>
+      <p>Email: beauty-space@example.com</p>
+      <div class="social-icons">
+        <a href="#"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Vkontakte_icon.svg/1200px-Vkontakte_icon.svg.png " alt="VK"></a>
+        <a href="#"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Telegram_logo.svg/1200px-Telegram_logo.svg.png " alt="Telegram"></a>
+        <a href="#"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/WhatsApp.svg/1200px-WhatsApp.svg.png " alt="WhatsApp"></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2025 Beauty Space. Все права защищены.</p>
+    <p>Политика конфиденциальности</p>
+  </footer>
+
+  <!-- Modal -->
+  <div id="reviewModal" class="modal">
+    <div class="modal-content">
+      <h3>Оставить отзыв</h3>
+      <form onsubmit="submitReview(event)">
+        <label for="name">Имя:</label>
+        <input type="text" id="name" required />
+
+        <label for="phone">Телефон:</label>
+        <input type="tel" id="phone" required />
+
+        <label for="message">Ваш отзыв:</label>
+        <textarea id="message" rows="4" required></textarea>
+
+        <button type="submit">Отправить</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    function openModal() {
+      document.getElementById('reviewModal').style.display = 'flex';
+    }
+
+    function closeModal() {
+      document.getElementById('reviewModal').style.display = 'none';
+    }
+
+    function submitReview(e) {
+      e.preventDefault();
+      alert("Спасибо за отзыв!");
+      closeModal();
+    }
+
+    // Close modal on outside click
+    window.onclick = function(event) {
+      const modal = document.getElementById('reviewModal');
+      if (event.target === modal) {
+        closeModal();
+      }
+    }
+  </script>
+
+</body>
+</html>
